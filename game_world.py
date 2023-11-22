@@ -26,3 +26,4 @@ def remove_object(o):
             layer.remove(o)
             return
     raise ValueError('Cannot delete non existing object')
+
