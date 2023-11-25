@@ -9,7 +9,8 @@ import play_mode
 def init():
     global image
     global running
-    image = load_image('menu.png')
+    global logo_start_time
+    image = load_image('start_button.png')
     running = True
 
 
@@ -26,7 +27,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(1080 // 2, 721 // 2)
+    image.draw(1080 // 2, 300)
     update_canvas()
 
 

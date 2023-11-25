@@ -22,8 +22,8 @@ class FixedBackground:
         pass
 
     def update(self):
-        self.window_left = int(server.mario.x) - self.cw // 2
-        self.window_bottom = int(server.mario.y) - self.ch // 2
+        self.window_left = int(server.mario.x) - self.cw//2
+        self.window_bottom = int(server.mario.y) - self.ch//2
 
         self.window_left = clamp(0, self.window_left, self.w - self.cw - 1)
         self.window_bottom = clamp(0, self.window_bottom, self.h - self.ch - 1)
@@ -33,15 +33,21 @@ class FixedBackground:
         pass
 
 
+
+
+
+
 class TileBackground:
 
     def __init__(self):
         self.cw = get_canvas_width()
         self.ch = get_canvas_height()
-        self.w = 1080 * 3
-        self.h = 721 * 3
+        self.w = 800 * 3
+        self.h = 600 * 3
 
         # fill here
+
+
 
     def update(self):
         pass
@@ -58,6 +64,9 @@ cx = 900 % 800
 cy = 700 // 600
 
 
+
+
+
 class InfiniteBackground:
 
     def __init__(self):
@@ -67,13 +76,16 @@ class InfiniteBackground:
         self.w = self.image.w
         self.h = self.image.h
 
+
+
     def draw(self):
-        self.image.clip_draw_to_origin(self.q3l, self.q3b, self.q3w, self.q3h, 0, 0)  # quadrant 3
-        self.image.clip_draw_to_origin(self.q2l, self.q2b, self.q2w, self.q2h, 0, self.q3h)  # quadrant 2
-        self.image.clip_draw_to_origin(self.q4l, self.q4b, self.q4w, self.q4h, self.q3w, 0)  # quadrant 4
-        self.image.clip_draw_to_origin(self.q1l, self.q1b, self.q1w, self.q1h, self.q3w, self.q3h)  # quadrant 1
+        self.image.clip_draw_to_origin(self.q3l, self.q3b, self.q3w, self.q3h, 0, 0)                        # quadrant 3
+        self.image.clip_draw_to_origin(self.q2l, self.q2b, self.q2w, self.q2h, 0, self.q3h)                 # quadrant 2
+        self.image.clip_draw_to_origin(self.q4l, self.q4b, self.q4w, self.q4h, self.q3w, 0)                 # quadrant 4
+        self.image.clip_draw_to_origin(self.q1l, self.q1b, self.q1w, self.q1h, self.q3w, self.q3h)          # quadrant 1
 
     def update(self):
+
         # quadrant 3
         self.q3l = (int(server.mario.x) - self.cw // 2) % self.w
         self.q3b = (int(server.mario.y) - self.ch // 2) % self.h
@@ -98,5 +110,11 @@ class InfiniteBackground:
         self.q1w = 0
         self.q1h = 0
 
+
     def handle_event(self, event):
         pass
+
+
+
+
+
