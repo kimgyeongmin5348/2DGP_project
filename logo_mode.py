@@ -20,14 +20,16 @@ def finish():
 
 def update():
     global logo_start_time
-    if get_time() - logo_start_time >= 3.0:
+    if get_time() - logo_start_time >= 2.0:
         logo_start_time = get_time()
         game_framework.change_mode(play_mode)
 
+
 def draw():
     clear_canvas()
-    image.draw(1820//2,1000//2)
+    image.draw(1080 // 2, 721 // 2)
     update_canvas()
+
 
 def handle_events():
     events = get_events()

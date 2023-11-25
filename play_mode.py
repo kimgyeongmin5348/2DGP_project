@@ -5,6 +5,10 @@ from ground import Ground
 from mario import Mario
 import game_framework
 import game_world
+import server
+
+from background import FixedBackground as Background
+
 
 
 
@@ -22,16 +26,17 @@ def handle_events():
 def init():
     global mario
 
-    ground = Ground()
-    game_world.add_object(ground,0)
+    server.background = Background()
+    game_world.add_object(server.background, 0)
 
     mario = Mario()
-    game_world.add_object(mario,1)
+    game_world.add_object(mario,2)
 
 
 
 def update():
     game_world.update()
+    game_world.handle_collisions()
 
 def finish():
     game_world.clear()

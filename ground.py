@@ -9,4 +9,4 @@ class Ground:
         pass
 
     def draw(self):
-        self.image.draw(1820//2,1000//2)
+        self.image.draw(1280//2,721//2)
