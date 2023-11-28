@@ -22,8 +22,8 @@ class FixedBackground:
         pass
 
     def update(self):
-        self.window_left = int(server.mario.x) - self.cw//2
-        self.window_bottom = int(server.mario.y) - self.ch//2
+        self.window_left = int(server.boy.x) - self.cw//2
+        self.window_bottom = int(server.boy.y) - self.ch//2
 
         self.window_left = clamp(0, self.window_left, self.w - self.cw - 1)
         self.window_bottom = clamp(0, self.window_bottom, self.h - self.ch - 1)
@@ -53,8 +53,8 @@ class TileBackground:
         pass
 
     def draw(self):
-        self.window_left = clamp(0, int(server.mario.x) - self.cw // 2, self.w - self.cw - 1)
-        self.window_bottom = clamp(0, int(server.mario.y) - self.ch // 2, self.h - self.ch - 1)
+        self.window_left = clamp(0, int(server.boy.x) - self.cw // 2, self.w - self.cw - 1)
+        self.window_bottom = clamp(0, int(server.boy.y) - self.ch // 2, self.h - self.ch - 1)
 
         # fill here
         pass
@@ -87,8 +87,8 @@ class InfiniteBackground:
     def update(self):
 
         # quadrant 3
-        self.q3l = (int(server.mario.x) - self.cw // 2) % self.w
-        self.q3b = (int(server.mario.y) - self.ch // 2) % self.h
+        self.q3l = (int(server.boy.x) - self.cw // 2) % self.w
+        self.q3b = (int(server.boy.y) - self.ch // 2) % self.h
         self.q3w = clamp(0, self.w - self.q3l, self.w)
         self.q3h = clamp(0, self.h - self.q3b, self.h)
 

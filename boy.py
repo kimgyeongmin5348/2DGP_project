@@ -53,6 +53,7 @@ def time_out(e):
     return e[0] == 'TIME_OUT'
 
 
+
 # time_out = lambda e : e[0] == 'TIME_OUT'
 
 
@@ -274,8 +275,8 @@ class Boy:
         self.font = load_font('ENCR10B.TTF', 24)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
-        self.x = server.background.w // 2
-        self.y = server.background.h // 2
+        self.x = 580
+        self.y = 150
 
     def update(self):
         self.state_machine.update()
@@ -293,8 +294,6 @@ class Boy:
         sx = self.x - server.background.window_left
         sy = self.y - server.background.window_bottom
         self.image.clip_draw(int(self.frame)*100, self.action * 100, 100, 100, sx, sy)
-        self.font.draw(sx - 10, sy + 60, f'{self.ball_count}', (0, 0, 255))
-        draw_rectangle(*self.get_bb())
         pass
 
     def get_bb(self):
@@ -305,3 +304,4 @@ class Boy:
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             self.ball_count += 1
+            print('턴 시작!')
