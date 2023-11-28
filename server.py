@@ -5,5 +5,6 @@ boy = None
 background = None
 ball = None
 flag = None
+item = None
 
 

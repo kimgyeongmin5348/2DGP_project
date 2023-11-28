@@ -33,40 +33,6 @@ class FixedBackground:
         pass
 
 
-
-
-
-
-class TileBackground:
-
-    def __init__(self):
-        self.cw = get_canvas_width()
-        self.ch = get_canvas_height()
-        self.w = 800 * 3
-        self.h = 600 * 3
-
-        # fill here
-
-
-
-    def update(self):
-        pass
-
-    def draw(self):
-        self.window_left = clamp(0, int(server.boy.x) - self.cw // 2, self.w - self.cw - 1)
-        self.window_bottom = clamp(0, int(server.boy.y) - self.ch // 2, self.h - self.ch - 1)
-
-        # fill here
-        pass
-
-
-cx = 900 % 800
-cy = 700 // 600
-
-
-
-
-
 class InfiniteBackground:
 
     def __init__(self):

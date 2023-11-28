@@ -11,6 +11,7 @@ import server
 from boy import Boy
 from ball import Ball
 from flag import Flag
+from item import Item
 
 from background import FixedBackground as Background
 
@@ -47,6 +48,10 @@ def init():
     server.flag = Flag()
     game_world.add_object(server.flag, 3)
     game_world.add_collision_pair('ball:flag', None, server.flag)
+
+    server.item = Item()
+    game_world.add_object(server.item,3)
+
 
 
 
