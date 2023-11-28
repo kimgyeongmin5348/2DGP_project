@@ -101,9 +101,13 @@ class Ball:
                 self.tx, self.ty = event.x, event.y
         return BehaviorTree.SUCCESS
 
+    def set_random_location(self):
+        self.tx, self.ty = random.randint(100, 1280 - 100), random.randint(100, 1024 - 100)
+        return BehaviorTree.SUCCESS
+
 
     def build_behavior_tree(self):
-        a1 = Action('목표지점을 입력', self.handle_events)
+        a1 = Action('목표지점을 입력', self.set_random_location)
         a2 = Action('공이 움직인다', self.move_to)
         root = SEQ_move_to_target = Sequence('목표 위치로 이동', a1, a2)
 
