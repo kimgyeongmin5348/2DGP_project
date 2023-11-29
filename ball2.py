@@ -5,7 +5,7 @@ import game_framework
 import random
 import math
 from behavior_tree import BehaviorTree, Action, Sequence, Condition, Selector
-import server
+import server2
 
 
 ball_speed = 20.0
@@ -23,15 +23,15 @@ FRAMES_PER_ACTION = 8
 animation_names = ['Walk', 'Idle']
 
 
-class Ball:
+class Ball2:
     images = None
 
     def load_images(self):
-        if Ball.images == None:
-            Ball.images = {}
+        if Ball2.images == None:
+            Ball2.images = {}
             for name in animation_names:
-                Ball.images[name] = [load_image("./ball/" + name + " (%d)" % i + ".png") for i in range(1, 11)]
-            Ball.marker_image = load_image('target.png')
+                Ball2.images[name] = [load_image("./ball/" + name + " (%d)" % i + ".png") for i in range(1, 11)]
+            Ball2.marker_image = load_image('target.png')
 
     def __init__(self, x=610, y=120):
         self.x = x
@@ -48,16 +48,15 @@ class Ball:
 
 
     def draw(self):
-        sx = self.x - server.background.window_left
-        sy = self.y - server.background.window_bottom
+        sx = self.x - server2.background2.window_left
+        sy = self.y - server2.background2.window_bottom
         if math.cos(self.dir) < 0:
-            Ball.images[self.state][int(self.frame)].composite_draw(0, 'h', sx, sy)
+            Ball2.images[self.state][int(self.frame)].composite_draw(0, 'h', sx, sy)
         else:
-            Ball.images[self.state][int(self.frame)].draw(sx, sy)
+            Ball2.images[self.state][int(self.frame)].draw(sx, sy)
         # draw_rectangle(*self.get_bb())
-        self.marker_image.draw(self.tx - server.background.window_left,
-                               self.ty - server.background.window_bottom, 30, 30)
-        draw_rectangle(*self.get_bb())
+        self.marker_image.draw(self.tx - server2.background2.window_left,
+                               self.ty - server2.background2.window_bottom, 30, 30)
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
@@ -66,9 +65,9 @@ class Ball:
 
 
     def get_bb(self):
-        sx = self.x - server.background.window_left
-        sy = self.y - server.background.window_bottom
-        return sx - 7, sy - 7, sx + 7, sy + 7
+        sx = self.x - server2.background2.window_left
+        sy = self.y - server2.background2.window_bottom
+        return self.x - 7, self.y - 7, self.x + 7, self.y + 7
 
     def handle_collision(self, group, other):
         match group:
@@ -108,7 +107,7 @@ class Ball:
         events = get_events()
         for event in events:
             if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-                self.tx, self.ty = event.x - server.background.window_left, event.y - server.background.window_bottom
+                self.tx, self.ty = event.x - server2.background2.window_left, event.y - server2.background2.window_bottom
                 return BehaviorTree.SUCCESS
 
         return BehaviorTree.RUNNING
@@ -116,7 +115,7 @@ class Ball:
 
 
     def build_behavior_tree(self):
-        a1 = Action('목표지점을 입력', self.set_target_location, 670, 950)
+        a1 = Action('목표지점을 입력', self.handle_events)
         a2 = Action('공이 움직인다', self.move_to)
         root = SEQ_move_to_target = Sequence('목표 위치로 이동', a1, a2)
 
