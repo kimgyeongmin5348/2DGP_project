@@ -1,6 +1,5 @@
-from pico2d import load_image, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, draw_rectangle
+from pico2d import load_image, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, draw_rectangle, get_events
 from sdl2 import SDL_MOUSEBUTTONUP
-
 import game_world
 import game_framework
 import random
@@ -35,12 +34,15 @@ class Ball:
         self.loc_no = 0
         self.is_moving = False
         self.destination_y = 0
-        self.tx, self.ty = 2000, 2000
+        self.tx = None
+        self.ty = None
+        self.bt.run()
+
 
     def draw(self):
-        sx = self.x - server.background.window_left
-        sy = self.y - server.background.window_bottom
-        self.image.draw(sx, sy)
+        # sx = self.x - server.background.window_left
+        # sy = self.y - server.background.window_bottom
+        self.image.draw(self.x, self.y)
         # draw_rectangle(*self.get_bb())
 
     def update(self):
@@ -77,25 +79,30 @@ class Ball:
         return distance2 < (PIXEL_PER_METER * r) ** 2
 
     def move_slightly_to(self, tx, ty):
-        sx = self.x - server.background.window_left
-        sy = self.y - server.background.window_bottom
-        self.dir = math.atan2(ty - sy, tx - sx)
+        # sx = self.x - server.background.window_left
+        # sy = self.y - server.background.window_bottom
+        # cx = self.tx - server.background.window_left  # 추가함
+        # cy = self.ty - server.background.window_bottom
+        self.dir = math.atan2(self.ty - self.y, self.tx - self.x)  # tx,ty를 cx,cy로 바꿈
         self.speed = BALL_SPEED_PPS
         self.x += self.speed * math.cos(self.dir) * game_framework.frame_time
         self.y += self.speed * math.sin(self.dir) * game_framework.frame_time
 
 
     def move_to(self, r = 0.5):
-        sx = self.x - server.background.window_left
-        sy = self.y - server.background.window_bottom
-        self.move_slightly_to(self.tx, self.ty)
-        if self.distance_less_than(self.tx, self.ty, sx, sy, r):
+        # sx = self.x - server.background.window_left
+        # sy = self.y - server.background.window_bottom
+        # cx = self.tx - server.background.window_left  # 추가함
+        # cy = self.ty - server.background.window_bottom
+        self.move_slightly_to(self.tx, self.ty)  # self.x, self.y를 cx, cy로 바꿈
+        if self.distance_less_than(self.tx, self.ty, self.x, self.y, r):  # 여기도!
             return BehaviorTree.SUCCESS
         else:
             return BehaviorTree.RUNNING
 
 
-    def handle_events(self, events):
+    def handle_events(self):
+        events = get_events()
         for event in events:
             if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
                 self.tx, self.ty = event.x, event.y
@@ -103,6 +110,9 @@ class Ball:
 
     def set_random_location(self):
         self.tx, self.ty = random.randint(100, 1280 - 100), random.randint(100, 1024 - 100)
+        # cx = self.tx - server.background.window_left  # 추가함
+        # cy = self.ty - server.background.window_bottom
+        print(self.tx, self.ty)
         return BehaviorTree.SUCCESS
 
 
