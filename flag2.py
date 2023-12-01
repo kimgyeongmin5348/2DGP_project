@@ -20,7 +20,7 @@ class Flag2:
         sx = self.x - server2.background2.window_left
         sy = self.y - server2.background2.window_bottom
         self.image.draw(sx, sy)
-        # draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb())
 
 
 

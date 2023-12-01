@@ -33,9 +33,10 @@ class Ball:
                 Ball.images[name] = [load_image("./ball/" + name + " (%d)" % i + ".png") for i in range(1, 11)]
             Ball.marker_image = load_image('target.png')
 
-    def __init__(self, x=610, y=120):
+    def __init__(self, x=610, y=120, size = 0.5):
         self.x = x
         self.y = y
+        self.size = size
         self.load_images()
         self.dir = 0.0
         self.speed = 0.0
@@ -45,6 +46,10 @@ class Ball:
         self.state = 'Idle'
         self.tx = 610
         self.ty = 120
+        self.base_size = size
+        self.target_size = size * 1.5
+        self.current_size = self.base_size
+        self.size_change_speed = (self.target_size - self.base_size) / BALL_SPEED_PPS  # 크기 변화 속도
 
 
     def draw(self):
@@ -78,11 +83,13 @@ class Ball:
             case 'ball:flag':
                 print('다음 필드로!')
 
-    def set_target_location(self, x = None, y = None):
-        if not x or not y:
-            raise ValueError('위치를 지정해야 합니다.')
-        self.tx, self.ty = x, y
-        return BehaviorTree.SUCCESS
+    def set_target_location(self):
+        events = get_events()
+        for event in events:
+            if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
+                self.tx, self.ty = event.x - server.background.window_left, event.y - server.background.window_bottom
+                return BehaviorTree.SUCCESS
+        return BehaviorTree.RUNNING
 
     def distance_less_than(self, x1, y1, x2, y2, r):
         distance2 = (x1 - x2) ** 2 + (y1 - y2) ** 2
@@ -96,27 +103,24 @@ class Ball:
 
 
     def move_to(self, r = 0.5):
-        self.state = 'Walk'
+        self.state = 'Idle'
         self.move_slightly_to(self.tx, self.ty)
         if self.distance_less_than(self.tx, self.ty, self.x, self.y, r):
+            self.current_size = self.base_size
             return BehaviorTree.SUCCESS
         else:
+            self.current_size += self.size_change_speed * game_framework.frame_time
+            self.current_size = min(self.current_size, self.target_size)
             return BehaviorTree.RUNNING
 
 
     def handle_events(self):
-        events = get_events()
-        for event in events:
-            if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-                self.tx, self.ty = event.x - server.background.window_left, event.y - server.background.window_bottom
-                return BehaviorTree.SUCCESS
-
-        return BehaviorTree.RUNNING
+        pass
 
 
 
     def build_behavior_tree(self):
-        a1 = Action('목표지점을 입력', self.set_target_location, 670, 950)
+        a1 = Action('목표지점을 입력', self.set_target_location)
         a2 = Action('공이 움직인다', self.move_to)
         root = SEQ_move_to_target = Sequence('목표 위치로 이동', a1, a2)
 

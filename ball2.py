@@ -31,7 +31,7 @@ class Ball2:
             Ball2.images = {}
             for name in animation_names:
                 Ball2.images[name] = [load_image("./ball/" + name + " (%d)" % i + ".png") for i in range(1, 11)]
-            Ball2.marker_image = load_image('target.png')
+            Ball2.marker2_image = load_image('target.png')
 
     def __init__(self, x=610, y=120):
         self.x = x
@@ -55,7 +55,7 @@ class Ball2:
         else:
             Ball2.images[self.state][int(self.frame)].draw(sx, sy)
         # draw_rectangle(*self.get_bb())
-        self.marker_image.draw(self.tx - server2.background2.window_left,
+        self.marker2_image.draw(self.tx - server2.background2.window_left,
                                self.ty - server2.background2.window_bottom, 30, 30)
 
     def update(self):
@@ -67,7 +67,7 @@ class Ball2:
     def get_bb(self):
         sx = self.x - server2.background2.window_left
         sy = self.y - server2.background2.window_bottom
-        return self.x - 7, self.y - 7, self.x + 7, self.y + 7
+        return sx - 7, sy - 7, sx + 7, sy + 7
 
     def handle_collision(self, group, other):
         match group:
@@ -95,7 +95,7 @@ class Ball2:
 
 
     def move_to(self, r = 0.5):
-        self.state = 'Walk'
+        self.state = 'Idle'
         self.move_slightly_to(self.tx, self.ty)
         if self.distance_less_than(self.tx, self.ty, self.x, self.y, r):
             return BehaviorTree.SUCCESS
