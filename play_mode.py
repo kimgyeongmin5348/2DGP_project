@@ -12,6 +12,7 @@ from boy import Boy
 from ball import Ball
 from flag import Flag
 from item import Item
+from club import Club
 
 from background import FixedBackground as Background
 
@@ -44,13 +45,18 @@ def init():
     game_world.add_object(server.ball, 2)
     game_world.add_collision_pair('boy:ball', None, server.ball)
     game_world.add_collision_pair('ball:flag', server.ball, None)
+    game_world.add_collision_pair('club:ball', None, server.ball)
 
     server.flag = Flag()
     game_world.add_object(server.flag, 3)
     game_world.add_collision_pair('ball:flag', None, server.flag)
 
     server.item = Item()
-    game_world.add_object(server.item,3)
+    game_world.add_object(server.item, 3)
+
+    server.club = Club()
+    game_world.add_object(server.club, 2)
+    game_world.add_collision_pair('club:ball', server.club, None)
 
 
 

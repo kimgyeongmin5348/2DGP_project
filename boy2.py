@@ -129,6 +129,7 @@ class RunRightDown:
         boy.speed = RUN_SPEED_PPS
         boy.dir = -math.pi / 4.0
 
+
     @staticmethod
     def exit(boy, e):
         pass

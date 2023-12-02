@@ -3,6 +3,7 @@ import math
 from pico2d import get_time, load_image, load_font, clamp, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, \
     SDLK_UP, SDLK_DOWN, \
     draw_rectangle
+from sdl2 import SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, SDL_MOUSEBUTTONUP
 
 from ball import Ball
 import game_world
@@ -48,6 +49,13 @@ def downkey_up(e):
 def space_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
 
+
+def left_click(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_MOUSEBUTTONDOWN and e[1].button == SDL_BUTTON_LEFT
+
+
+def left_click_up(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_MOUSEBUTTONUP and e[1].button == SDL_BUTTON_LEFT
 
 def time_out(e):
     return e[0] == 'TIME_OUT'
@@ -225,13 +233,28 @@ class RunDown:
         pass
 
 
+class Swing:
+    @staticmethod
+    def enter(boy, e):
+        boy.action = 1
+        boy.dir = 0
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(boy):
+        pass
+
+
 class StateMachine:
     def __init__(self, boy):
         self.boy = boy
         self.cur_state = Idle
         self.transitions = {
             Idle: {right_down: RunRight, left_down: RunLeft, left_up: RunRight, right_up: RunLeft, upkey_down: RunUp,
-                   downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp},
+                   downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp, left_click: Swing},
             RunRight: {right_up: Idle, left_down: Idle, upkey_down: RunRightUp, upkey_up: RunRightDown,
                        downkey_down: RunRightDown, downkey_up: RunRightUp},
             RunRightUp: {upkey_up: RunRight, right_up: RunUp, left_down: RunUp, downkey_down: RunRight},
@@ -243,7 +266,8 @@ class StateMachine:
             RunLeftDown: {left_up: RunDown, downkey_up: RunLeft, upkey_down: RunLeft, right_down: RunDown},
             RunDown: {downkey_up: Idle, left_down: RunLeftDown, upkey_down: Idle, right_down: RunRightDown,
                       left_up: RunRightDown, right_up: RunLeftDown},
-            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight}
+            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight},
+            Swing: {left_click_up: Idle}
         }
 
     def start(self):

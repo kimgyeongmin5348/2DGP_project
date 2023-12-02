@@ -16,6 +16,21 @@ from item import Item
 from background2 import FixedBackground2 as Background2
 
 
+club_speed = 20.0
+
+PIXEL_PER_METER = (10.0 / 0.3)
+CLUB_SPEED_KMPH = club_speed
+CLUB_SPEED_MPM = (CLUB_SPEED_KMPH * 1000.0 / 60.0)
+CLUB_SPEED_MPS = (CLUB_SPEED_MPM / 60.0)
+CLUB_SPEED_PPS = (CLUB_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
+
+# 여기에 boy.py에 있는 상대변환 하는거 이용 방향키는 w,a,s,d 이용
+
 
 def handle_events():
     events = get_events()
