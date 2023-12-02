@@ -299,7 +299,7 @@ class Boy:
         self.font = load_font('ENCR10B.TTF', 24)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
-        self.x = 580
+        self.x = 200
         self.y = 150
 
     def update(self):
