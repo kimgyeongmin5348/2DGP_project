@@ -1,7 +1,5 @@
 from pico2d import (load_image, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, draw_rectangle, get_events,
                     SDL_QUIT, SDL_KEYDOWN, SDLK_1, SDLK_2, load_music, load_wav)
-
-
 import game_world
 import game_framework
 import random
@@ -101,6 +99,7 @@ class Ball:
                 print('n번째 턴')
             case 'ball:flag':
                 Ball.ball_in_hole.play()
+                server.boy.ball_count = 0
 
                 print('다음 필드로!')
             case 'ball:final':

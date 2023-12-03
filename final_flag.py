@@ -3,6 +3,7 @@ import game_world
 import game_framework
 import random
 
+import last_mode
 import server
 
 
@@ -34,6 +35,7 @@ class Final:
         match group:
             case 'ball:final':
                 server.ball.ball_in_hole.play()
+                game_framework.change_mode(last_mode)
                 print('필드 종료')
 
 

@@ -35,6 +35,7 @@ class Flag17:
                 server.ball.tx = 2331
                 server.ball.ty = 1143
                 server.ball.ball_in_hole.play()
+                server.boy.ball_count = 0
                 print('다음 필드로!')
 
 

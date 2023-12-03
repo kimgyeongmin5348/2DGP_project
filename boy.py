@@ -331,7 +331,7 @@ class Boy:
 
         sx = self.x - server.background.window_left
         sy = self.y - server.background.window_bottom
-        self.image.clip_draw(int(self.frame)*100, self.action * 100, 100, 100, sx, sy)
+        self.image.clip_draw(int(self.frame)*100, self.action * 100, 100, 100, sx, sy)  # 이건 처음에 다 100이었음
         self.font.draw(sx - 10, sy + 60, f'{self.ball_count}', (0, 0, 255))
         pass
 
@@ -351,7 +351,6 @@ class Boy:
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             self.ball_count += 1
-
             self.x = server.ball.x + 50
             print('턴 시작!')
 

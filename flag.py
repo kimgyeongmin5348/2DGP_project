@@ -12,6 +12,7 @@ class Flag:
         if Flag.image == None:
             Flag.image = load_image('flag.png')
         self.x, self.y = 2196, 776
+        self.font = load_font('ENCR10B.TTF', 24)
 
     def draw(self):
         sx = self.x - server.background.window_left
