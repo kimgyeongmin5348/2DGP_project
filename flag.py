@@ -2,8 +2,6 @@ from pico2d import *
 import game_world
 import game_framework
 import random
-
-import play_mode2
 import server
 
 
@@ -13,8 +11,7 @@ class Flag:
     def __init__(self, x=None, y=None):
         if Flag.image == None:
             Flag.image = load_image('flag.png')
-        self.x = 670
-        self.y = 950
+        self.x, self.y = 2196, 776
 
     def draw(self):
         sx = self.x - server.background.window_left
@@ -30,10 +27,13 @@ class Flag:
     def get_bb(self):
         sx = self.x - server.background.window_left
         sy = self.y - server.background.window_bottom
-        return sx - 10, sy - 37, sx + 10, sy + 37
+        return sx - 10, sy - 25, sx + 10, sy + 27
 
     def handle_collision(self, group, other):
         match group:
             case 'ball:flag':
+                server.ball.tx = 2210
+                server.ball.ty = 885
                 print('다음 필드로!')
-                game_framework.change_mode(play_mode2)
+
+

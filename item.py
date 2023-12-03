@@ -19,13 +19,5 @@ class Item:
     def draw(self):
         self.image.draw(self.x, self.y)
 
-
-
     def update(self):
-        pass
-
-    def get_bb(self):
-        pass
-
-    def handle_collision(self, group, other):
         pass

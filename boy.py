@@ -2,48 +2,52 @@ import math
 
 from pico2d import get_time, load_image, load_font, clamp, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, \
     SDLK_UP, SDLK_DOWN, \
-    draw_rectangle
-from sdl2 import SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, SDL_MOUSEBUTTONUP
+    draw_rectangle, get_events, load_music, load_wav
+from sdl2 import SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, SDL_MOUSEBUTTONUP, SDL_QUIT, SDLK_1, SDLK_2, SDLK_a, SDLK_d, \
+    SDLK_w, SDLK_s
 
 from ball import Ball
 import game_world
 import game_framework
 import server
+from club import Club1
+from club import Club2
+
 
 
 # state event check
 # ( state event type, event value )
 
 def right_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_d
 
 
 def right_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_RIGHT
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_d
 
 
 def left_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LEFT
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
 
 def left_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_a
 
 
 def upkey_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_UP
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_w
 
 
 def upkey_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_UP
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_w
 
 
 def downkey_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_DOWN
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_s
 
 
 def downkey_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_DOWN
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_s
 
 
 def space_down(e):
@@ -238,6 +242,12 @@ class Swing:
     def enter(boy, e):
         boy.action = 1
         boy.dir = 0
+        boy.swing_x, boy.swing_y = e[1].x + server.background.window_left , 721 - e[1].y + server.background.window_bottom
+        print(f'swing 좌표 ({boy.swing_x}, {boy.swing_y})')
+        boy.swing_sound = load_wav('hit.wav')
+        boy.swing_sound.set_volume(32)
+        boy.swing_sound.play()
+
 
     @staticmethod
     def exit(boy, e):
@@ -286,8 +296,8 @@ class StateMachine:
                 self.cur_state = next_state
                 self.cur_state.enter(self.boy, e)
                 return True
-
         return False
+
 
 
 class Boy:
@@ -299,8 +309,12 @@ class Boy:
         self.font = load_font('ENCR10B.TTF', 24)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
-        self.x = 200
-        self.y = 150
+        self.x = 3300
+        self.y = 628
+        self.item = None
+
+        self.swing_x = 3040
+        self.swing_y = 646
 
     def update(self):
         self.state_machine.update()
@@ -326,8 +340,18 @@ class Boy:
         sy = self.y - server.background.window_bottom
         return sx - 20, sy - 50, sx + 20, sy + 50
 
+    def clubs(self):
+        if self.item == 'Club1':
+            club = Club1()
+            game_world.add_object(club)
+        elif self.item == 'Club2':
+            club = Club2()
+            game_world.add_object(club)
+
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             self.ball_count += 1
-            self.x = self.x - 20
+
+            self.x = server.ball.x + 50
             print('턴 시작!')
+
