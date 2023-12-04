@@ -12,13 +12,13 @@ class Flag:
         if Flag.image == None:
             Flag.image = load_image('flag.png')
         self.x, self.y = 2196, 776
-        self.font = load_font('ENCR10B.TTF', 24)
+        self.font = load_font('Super Comic.ttf', 50)
 
     def draw(self):
         sx = self.x - server.background.window_left
         sy = self.y - server.background.window_bottom
         self.image.draw(sx, sy)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
 
 
@@ -35,6 +35,8 @@ class Flag:
             case 'ball:flag':
                 server.ball.tx = 2210
                 server.ball.ty = 885
+                if server.boy.ball_count == 0:
+                    self.font.draw(self.x - 30, self.y, 'BOGEY', (0, 255, 0))
                 print('다음 필드로!')
 
 

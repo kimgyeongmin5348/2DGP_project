@@ -6,10 +6,13 @@ import play_mode
 
 
 def init():
-    global image
+    global image, bgm
     global running
     image = load_image('Start.png')
     running = True
+    bgm = load_music('SellBuyMusic.mp3')
+    bgm.set_volume(32)
+    bgm.play()
 
 
 
@@ -34,7 +37,7 @@ def handle_events():
     for event in events:
         if event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
             game_framework.change_mode(play_mode)
-        elif event.tpe == SDL_QUIT:
+        elif event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()

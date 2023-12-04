@@ -352,5 +352,6 @@ class Boy:
         if group == 'boy:ball':
             self.ball_count += 1
             self.x = server.ball.x + 50
+
             print('턴 시작!')
 

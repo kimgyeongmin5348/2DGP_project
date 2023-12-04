@@ -21,7 +21,7 @@ class Final:
         sx = self.x - server.background.window_left
         sy = self.y - server.background.window_bottom
         self.image.draw(sx, sy)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
 
 

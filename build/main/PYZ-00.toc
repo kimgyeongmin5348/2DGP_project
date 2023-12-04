@@ -2115,6 +2115,7 @@
   ('sdl2dll.initcheck',
    'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\sdl2dll\\initcheck.py',
    'PYMODULE'),
+  ('second_mode', 'D:\\2-2\\2DGP_project\\second_mode.py', 'PYMODULE'),
   ('secrets',
    'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\secrets.py',
    'PYMODULE'),

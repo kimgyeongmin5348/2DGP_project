@@ -1,5 +1,5 @@
 from pico2d import (load_image, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, draw_rectangle, get_events,
-                    SDL_QUIT, SDL_KEYDOWN, SDLK_1, SDLK_2, load_music, load_wav)
+                    SDL_QUIT, SDL_KEYDOWN, SDLK_1, SDLK_2, load_music, load_wav, load_font)
 import game_world
 import game_framework
 import random
@@ -52,6 +52,7 @@ class Ball:
         self.base_size = size
         self.target_size = size * 1.5
         self.current_size = self.base_size
+        self.font = load_font('Super Comic.ttf', 50)
         self.size_change_speed = (self.target_size - self.base_size) / BALL_SPEED_PPS  # 크기 변화 속도
         if not Ball.ball_in_hole:
             Ball.ball_in_hole = load_wav('hole.wav')
@@ -67,7 +68,7 @@ class Ball:
         # draw_rectangle(*self.get_bb())
         self.marker_image.draw(self.tx - server.background.window_left,
                                self.ty - server.background.window_bottom, 30, 30)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
@@ -100,6 +101,7 @@ class Ball:
             case 'ball:flag':
                 Ball.ball_in_hole.play()
                 server.boy.ball_count = 0
+
 
                 print('다음 필드로!')
             case 'ball:final':
