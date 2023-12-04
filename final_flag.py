@@ -14,6 +14,8 @@ class Final:
         if Final.image == None:
             Final.image = load_image('flag.png')
         self.x, self.y = 3295, 1284
+        self.bgm = load_music('last_music.mp3')
+        self.bgm.set_volume(32)
 
     def draw(self):
         sx = self.x - server.background.window_left
@@ -35,7 +37,12 @@ class Final:
         match group:
             case 'ball:final':
                 server.ball.ball_in_hole.play()
+                server.background.bgm.stop()
                 game_framework.change_mode(last_mode)
+                self.bgm.repeat_play()
+                server.ball.x = 100
+                server.ball.x = 100
+
                 print('필드 종료')
 
 

@@ -8,13 +8,9 @@ import play_mode
 
 def init():
     global image
-    global running
-    global music
     image = load_image('Last.png')
-    running = True
-    music = load_music('last_music.mp3')
-    music = music.set_volume(32)
-    music = music.repeat_play()
+
+
 
 
 
